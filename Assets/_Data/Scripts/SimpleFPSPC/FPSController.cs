@@ -15,7 +15,9 @@ public class FPSController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
     bool canMove = true;
-    bool isCrouching = false; 
+    bool isCrouching = false;
+
+    public float pushPower = 2.0F;
 
     void Start()
     {
@@ -86,5 +88,28 @@ public class FPSController : MonoBehaviour
             walkingSpeed = 7.5f;
             runningSpeed = 11.5f;
         }
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody body = hit.collider.attachedRigidbody;
+
+        // no rigidbody
+        if (body == null || body.isKinematic)
+            return;
+
+        // We dont want to push objects below us
+        if (hit.moveDirection.y < -0.3f)
+            return;
+
+        // Calculate push direction from move direction,
+        // we only push objects to the sides never up and down
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+
+        // If you know how fast your character is trying to move,
+        // then you can also multiply the push velocity by that.
+
+        // Apply the push
+        body.velocity = pushDir * pushPower;
     }
 }
