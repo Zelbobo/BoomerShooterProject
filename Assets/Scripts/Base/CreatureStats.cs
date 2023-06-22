@@ -4,6 +4,13 @@ public abstract class CreatureStats : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] protected float health;
+    [SerializeField] private int teamID;
+
+    #region [PublicVars]
+
+    public int GetTeamID => teamID;
+
+    #endregion
 
     public virtual void TakeDamage(float _ammount)
     {
