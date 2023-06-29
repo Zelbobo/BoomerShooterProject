@@ -54,7 +54,7 @@ public class PlayerController : MoveController
         Move();
     }
 
-    protected override void Move()
+    private void Move()
     {
         move = transform.forward * moveVertical + transform.right * moveHorizontal;
 

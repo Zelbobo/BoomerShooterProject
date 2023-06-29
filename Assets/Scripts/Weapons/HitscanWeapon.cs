@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class HitscanWeapon : Weapon
 {
+    [SerializeField] private LayerMask hitLayer;
+
     [Header("Bullet")]
     [SerializeField] private HitscanBullet hitscanBullet;
     [SerializeField] private Transform bulletSpawnPoint;
-    [SerializeField] private LayerMask bulletLayer;
 
     [SerializeField] private bool isBulletSpread;
     [SerializeField] private Vector3 bulletSpread;
@@ -46,7 +47,7 @@ public class HitscanWeapon : Weapon
 
         HitscanBullet bullet = Instantiate(hitscanBullet, bulletSpawnPoint.position, Quaternion.identity);
 
-        if (Physics.Raycast(ray, out hit, float.MaxValue, bulletLayer))
+        if (Physics.Raycast(ray, out hit, float.MaxValue, hitLayer))
         {
             StartCoroutine(SpawnHitscanBullet(bullet, hit.point));
 
