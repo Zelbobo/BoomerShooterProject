@@ -15,9 +15,16 @@ public abstract class AIAttack : MonoBehaviour
 
     #region [PrivateVars]
 
-    private float nextTime2Fire;
+    protected EnemyAnimations enemyAnimations;
+
+    protected float nextTime2Fire;
 
     #endregion
+
+    protected virtual void Start()
+    {
+        enemyAnimations = GetComponent<EnemyAnimations>();
+    }
 
     public virtual void AttackPlayer(PlayerStats player)
     {
@@ -25,6 +32,7 @@ public abstract class AIAttack : MonoBehaviour
         {
             nextTime2Fire = Time.time + 1f / attackSpeed;
             player.TakeDamage(damage);
+            enemyAnimations.AttackTrigger();
         }   
     }
 }

@@ -27,6 +27,7 @@ public class AIController : MoveController
     #region [PrivateVars]
 
     private NavMeshAgent navMeshAgent;
+    private AIAnimations aIAnimations;
 
     private int currentPatrolPoint = 0;
 
@@ -39,6 +40,7 @@ public class AIController : MoveController
     protected virtual void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        aIAnimations = GetComponent<AIAnimations>();
 
         navMeshAgent.speed = defaultSpeed;
 
@@ -102,6 +104,8 @@ public class AIController : MoveController
             return;
         }
 
+        aIAnimations.SetIsRun(true);
+
         if (checkingDestination != null)
         {
             StopCoroutine(checkingDestination);
@@ -123,6 +127,7 @@ public class AIController : MoveController
             yield return null;
         } while (distance > navMeshAgent.stoppingDistance + 0.2f);
 
+        aIAnimations.SetIsRun(false);
         OnPathCompleted?.Invoke();
     }
 }
