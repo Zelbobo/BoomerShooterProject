@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : CreatureStats
 {
@@ -9,6 +10,8 @@ public class PlayerStats : CreatureStats
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI textHealth;
     [SerializeField] private TextMeshProUGUI textArmor;
+    [Space, SerializeField] private Slider sliderHealth;
+    [SerializeField] private Slider sliderArmor;
 
     #region [PublicVars]
 
@@ -22,6 +25,11 @@ public class PlayerStats : CreatureStats
             if (textHealth != null)
             {
                 textHealth.text = health.ToString();
+            }
+
+            if (sliderHealth != null)
+            {
+                sliderHealth.value = health / 100;
             }
         }
     }
@@ -37,10 +45,21 @@ public class PlayerStats : CreatureStats
             {
                 textArmor.text = armor.ToString();
             }
+
+            if (sliderArmor != null)
+            {
+                sliderArmor.value = armor / 100;
+            }
         }
     }
 
     #endregion
+
+    private void Start()
+    {
+        Health = health;
+        Armor = armor;
+    }
 
     public override void TakeDamage(float _ammount)
     {
@@ -54,10 +73,10 @@ public class PlayerStats : CreatureStats
             damageAmmount = Mathf.Clamp(damageAmmount - armorResist, 0, float.MaxValue);
             Armor -= armorNeed;
 
-            Debug.Log($"Start damage : {_ammount}\n" +
-                $"Armor need : {armorNeed}\n" +
-                $"Armor resist : {armorResist}\n" +
-                $"Damage ammount : {damageAmmount}");
+            //Debug.Log($"Start damage : {_ammount}\n" +
+            //    $"Armor need : {armorNeed}\n" +
+            //    $"Armor resist : {armorResist}\n" +
+            //    $"Damage ammount : {damageAmmount}");
         }
 
         Health -= damageAmmount;
