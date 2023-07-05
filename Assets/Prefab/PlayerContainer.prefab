@@ -217,7 +217,7 @@ MonoBehaviour:
   diactivateDelay: 0
   hitLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65
   hitscanBullet: {fileID: 5183745839859131935, guid: e44333616d96606459e635b09a26cb2d, type: 3}
   bulletSpawnPoint: {fileID: 1063805117}
   isBulletSpread: 0
@@ -1680,6 +1680,8 @@ MonoBehaviour:
   armorTakeDamage: 4
   textHealth: {fileID: 0}
   textArmor: {fileID: 0}
+  sliderHealth: {fileID: 0}
+  sliderArmor: {fileID: 0}
 --- !u!114 &1378842052260339397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1795,7 +1797,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6709361608526180791}
   m_Layer: 0
-  m_Name: PlayerContainer 1
+  m_Name: PlayerContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
