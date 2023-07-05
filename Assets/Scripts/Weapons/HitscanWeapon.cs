@@ -60,6 +60,11 @@ public class HitscanWeapon : Weapon
 
                 ActivateHitMarker();
                 creatureStats.TakeDamage(GetWeaponObject.GetDamage);
+                
+                if (creatureStats.TryGetComponent(out EnemyController enemyController))
+                {
+                    enemyController.HitFromPlayer(this.creatureStats);
+                }
             }
 
             if ((hit.transform.TryGetComponent(out Rigidbody rigidbody)) && (creatureStats == null))

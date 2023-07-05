@@ -12,7 +12,7 @@ public class EnemyController : AIController
 
     #region [PrivateVars]
 
-    private PlayerStats currentPlayer;
+    private CreatureStats currentPlayer;
 
     private Coroutine checkingPlayer;
 
@@ -42,7 +42,7 @@ public class EnemyController : AIController
         }
     }
 
-    private IEnumerator CheckPlayer(PlayerStats player)
+    private IEnumerator CheckPlayer(CreatureStats player)
     {
         while (currentPlayer == null)
         {
@@ -52,7 +52,7 @@ public class EnemyController : AIController
         }
     }
 
-    private void CastRay(PlayerStats player)
+    private void CastRay(CreatureStats player)
     {
         Ray ray = new Ray(transform.position, player.transform.position - transform.position);
         RaycastHit hit;
@@ -66,7 +66,12 @@ public class EnemyController : AIController
         }
     }
 
-    private IEnumerator AttackPlayer(PlayerStats player)
+    public void HitFromPlayer(CreatureStats player)
+    {
+        StartCoroutine(AttackPlayer(player));
+    }
+
+    private IEnumerator AttackPlayer(CreatureStats player)
     {
         currentPlayer = player;
 

@@ -7,7 +7,7 @@ public class MeleeAttack : AIAttack
 
     private bool isAttacking = false;
 
-    public override void AttackPlayer(PlayerStats player)
+    public override void AttackPlayer(CreatureStats player)
     {
         if (isAttacking)
         {
@@ -20,7 +20,7 @@ public class MeleeAttack : AIAttack
         Invoke(nameof(RefreshAttack), attackSpeed);
     }
 
-    private IEnumerator AnimAttack(PlayerStats player)
+    private IEnumerator AnimAttack(CreatureStats player)
     {
         yield return new WaitForSeconds(attackTiming);
 
