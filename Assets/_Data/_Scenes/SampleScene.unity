@@ -6002,14 +6002,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 996037504, guid: f3a5473449613dd40b85033ead5688cd, type: 3}
-      propertyPath: hitLayer.m_Bits
-      value: 65
-      objectReference: {fileID: 0}
-    - target: {fileID: 996037504, guid: f3a5473449613dd40b85033ead5688cd, type: 3}
-      propertyPath: bulletLayer.m_Bits
-      value: 65
-      objectReference: {fileID: 0}
     - target: {fileID: 6709361608526180784, guid: f3a5473449613dd40b85033ead5688cd, type: 3}
       propertyPath: m_Name
       value: PlayerContainer
