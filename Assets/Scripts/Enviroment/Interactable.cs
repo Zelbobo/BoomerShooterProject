@@ -9,6 +9,6 @@ public class Interactable : MonoBehaviour
     {
         Debug.Log(transform.name);
 
-        onInteract?.Invoke():
+        onInteract?.Invoke();
     }
 }
