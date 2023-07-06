@@ -26,7 +26,7 @@ public abstract class AIAttack : MonoBehaviour
         enemyAnimations = GetComponent<EnemyAnimations>();
     }
 
-    public virtual void AttackPlayer(PlayerStats player)
+    public virtual void AttackPlayer(CreatureStats player)
     {
         if (Time.time >= nextTime2Fire)
         {
