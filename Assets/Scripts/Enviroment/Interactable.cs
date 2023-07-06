@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class Interactable : MonoBehaviour
 {
-    [SerializeField] private UnityAction onInteract;
+    [SerializeField] private UnityEvent onInteract;
 
     public virtual void Interact()
     {
