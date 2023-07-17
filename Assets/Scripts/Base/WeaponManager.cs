@@ -27,4 +27,20 @@ public class WeaponManager : MonoBehaviour
         currentWeapon?.ActivateWeapon(false);
         currentWeapon = null;
     }
+
+    public bool CollectAmmo(AmmoCollectable ammoCollectable)
+    {
+        RangeWeapon currentWeapon = null;
+
+        foreach (RangeWeapon weapon in weaponsList)
+        {
+            if (weapon.GetWeaponObject == ammoCollectable.GetWeaponObject)
+            {
+                currentWeapon = weapon;
+                break;
+            }
+        }
+
+        return currentWeapon.AddAmmo(ammoCollectable.GetAmmoValue);
+    }
 }

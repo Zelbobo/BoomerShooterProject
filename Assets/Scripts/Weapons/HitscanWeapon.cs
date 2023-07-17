@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class HitscanWeapon : Weapon
+public class HitscanWeapon : RangeWeapon
 {
     [SerializeField] private LayerMask hitLayer;
 
@@ -12,12 +12,6 @@ public class HitscanWeapon : Weapon
     [SerializeField] private bool isBulletSpread;
     [SerializeField] private Vector3 bulletSpread;
 
-    #region [PrivateVars]
-
-    private float nextTime2Fire;
-
-    #endregion
-
     #region [Components]
 
     private CreatureStats creatureStats;
@@ -25,22 +19,15 @@ public class HitscanWeapon : Weapon
 
     #endregion
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         _camera = Camera.main;
         creatureStats = GetComponentInParent<CreatureStats>();
     }
 
-    public override void UseWeapon()
-    {
-        if (Time.time >= nextTime2Fire)
-        {
-            nextTime2Fire = Time.time + 1f / weaponObject.GetFireRate;
-            Shoot();
-        }
-    }
-
-    private void Shoot()
+    protected override void Shoot()
     {
         Ray ray = new Ray(_camera.transform.position, _camera.transform.forward);
         RaycastHit hit;
@@ -59,7 +46,7 @@ public class HitscanWeapon : Weapon
                 }
 
                 ActivateHitMarker();
-                creatureStats.TakeDamage(GetWeaponObject.GetDamage);
+                creatureStats.TakeDamage(damage);
                 
                 if (creatureStats.TryGetComponent(out EnemyController enemyController))
                 {
@@ -69,7 +56,7 @@ public class HitscanWeapon : Weapon
 
             if ((hit.transform.TryGetComponent(out Rigidbody rigidbody)) && (creatureStats == null))
             {
-                rigidbody.AddForce(hit.point * 10f, ForceMode.Impulse);
+                rigidbody.AddForce(hit.point * impactForce, ForceMode.Impulse);
             }
         }
         else
