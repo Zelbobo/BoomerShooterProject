@@ -26,7 +26,7 @@ public class AIController : MoveController
 
     #region [PrivateVars]
 
-    private NavMeshAgent navMeshAgent;
+    protected NavMeshAgent navMeshAgent;
     private AIAnimations aIAnimations;
 
     private int currentPatrolPoint = 0;
@@ -34,6 +34,8 @@ public class AIController : MoveController
     private Coroutine checkingDestination;
 
     protected Vector3 viewDirection;
+
+    protected bool isRuning = false;
 
     #endregion
 
@@ -126,6 +128,17 @@ public class AIController : MoveController
 
             yield return null;
         } while (distance > navMeshAgent.stoppingDistance + 0.2f);
+
+        aIAnimations.SetIsRun(false);
+        OnPathCompleted?.Invoke();
+    }
+
+    protected void Stopped()
+    {
+        if (checkingDestination != null)
+        {
+            StopCoroutine(checkingDestination);
+        }
 
         aIAnimations.SetIsRun(false);
         OnPathCompleted?.Invoke();
