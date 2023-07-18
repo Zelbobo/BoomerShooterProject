@@ -12,6 +12,7 @@ public class PlayerStats : CreatureStats
     [SerializeField] private TextMeshProUGUI textArmor;
     [Space, SerializeField] private Slider sliderHealth;
     [SerializeField] private Slider sliderArmor;
+    [SerializeField] private GameOverLogic gameOverLogic;
 
     #region [PublicVars]
 
@@ -83,6 +84,8 @@ public class PlayerStats : CreatureStats
 
         if (Health > 0)
         {
+            gameOverLogic.GameOver();
+            Destroy(gameObject);
             return;
         }
 
