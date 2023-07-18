@@ -3,12 +3,23 @@ using UnityEngine;
 
 public class EnemyController : AIController
 {
-    [Header("Obstacles")]
-    [SerializeField] private LayerMask obstaclesLayer;
+    [Header("FOV")]
+    [SerializeField] private float radius;
+    [SerializeField] private float fovAngle;
+    [SerializeField] private LayerMask playerMask;
+    [SerializeField] private LayerMask obstaclesMask;
 
     [Header("Rotation")]
     [SerializeField] private float speedRotation;
     [SerializeField] private Transform body;
+
+    #region [PublicVars]
+
+    public float GetRaduis => radius;
+    public float GetFOVAnge => fovAngle;
+    public CreatureStats GetCurrentPlayer => currentPlayer;
+
+    #endregion
 
     #region [PrivateVars]
 
@@ -29,7 +40,12 @@ public class EnemyController : AIController
 
     public void OnPlayerEnter(PlayerStats player)
     {
-        checkingPlayer = StartCoroutine(CheckPlayer(player));
+        if (checkingPlayer != null)
+        {
+            StopCoroutine(checkingPlayer);
+        }
+
+        checkingPlayer = StartCoroutine(CheckPlayer());
     }
 
     public void OnPlayerExit(PlayerStats player)
@@ -42,26 +58,37 @@ public class EnemyController : AIController
         }
     }
 
-    private IEnumerator CheckPlayer(CreatureStats player)
+    private IEnumerator CheckPlayer()
     {
         while (currentPlayer == null)
         {
-            CastRay(player);
+            CastRay();
 
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
     }
 
-    private void CastRay(CreatureStats player)
+    private void CastRay()
     {
-        Ray ray = new Ray(transform.position, player.transform.position - transform.position);
-        RaycastHit hit;
+        Collider[] obstacles = Physics.OverlapSphere(transform.position, radius, playerMask);
 
-        if (Physics.Raycast(ray, out hit, float.MaxValue, obstaclesLayer))
+        if (obstacles.Length > 0)
         {
-            if (hit.transform.TryGetComponent(out PlayerStats m_player))
-            {               
-                StartCoroutine(AttackPlayer(m_player));
+            Transform target = obstacles[0].transform;
+            Vector3 direction2Target = (target.position - transform.position).normalized;
+
+            if (Vector3.Angle(transform.forward, direction2Target) < fovAngle / 2)
+            {
+                float distance2Target = Vector3.Distance(transform.position, target.position);
+
+                if (!Physics.Raycast(transform.position, direction2Target, distance2Target, obstaclesMask))
+                {
+                    if (target.TryGetComponent(out PlayerStats m_player))
+                    {
+                        StartCoroutine(AttackPlayer(m_player));
+                        StopCoroutine(checkingPlayer);
+                    }
+                }
             }
         }
     }
@@ -73,6 +100,7 @@ public class EnemyController : AIController
 
     private IEnumerator AttackPlayer(CreatureStats player)
     {
+        navMeshAgent.isStopped = false;
         currentPlayer = player;
 
         if (aiState == AIState.Patrol)
@@ -84,22 +112,33 @@ public class EnemyController : AIController
         {
             if (Vector3.Distance(currentPlayer.transform.position, transform.position) <= aIAttack.GetAttackRange)
             {
-                aIAttack.AttackPlayer(currentPlayer);
+                navMeshAgent.isStopped = true;
+                Stopped();
                 Rotate2Player(currentPlayer.transform);
+                aIAttack.AttackPlayer(currentPlayer);
             }
             else
             {
+                navMeshAgent.isStopped = false;
                 Move2Point(currentPlayer.transform);
             }
 
             yield return null;
         }
 
-        CheckPlayer(currentPlayer);
-
-        if (aiState == AIState.Patrol)
+        switch (aiState)
         {
-            StartPatrol();
+            case AIState.Idle:
+                {
+                    navMeshAgent.isStopped = true;
+                    Stopped();
+                }
+                break;
+            case AIState.Patrol:
+                {
+                    StartPatrol();
+                }
+                break;
         }
     }
 
