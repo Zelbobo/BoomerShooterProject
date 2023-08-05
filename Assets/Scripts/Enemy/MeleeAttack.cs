@@ -5,7 +5,18 @@ public class MeleeAttack : AIAttack
 {
     [SerializeField] private float attackTiming;
 
+    #region [PrivateVars]
+
     private bool isAttacking = false;
+
+    private EnemyAnimations enemyAnimations;
+
+    #endregion
+
+    private void Start()
+    {
+        enemyAnimations = GetComponent<EnemyAnimations>();
+    }
 
     public override void AttackPlayer(CreatureStats player)
     {

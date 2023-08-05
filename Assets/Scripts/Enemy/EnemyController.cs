@@ -110,7 +110,7 @@ public class EnemyController : AIController
 
         while (currentPlayer != null)
         {
-            if (Vector3.Distance(currentPlayer.transform.position, transform.position) <= aIAttack.GetAttackRange)
+            if (aIAttack.IsCanAttack(currentPlayer.transform))
             {
                 navMeshAgent.isStopped = true;
                 Stopped();
