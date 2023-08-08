@@ -80,12 +80,9 @@ public class PlayerStats : CreatureStats
             //    $"Damage ammount : {damageAmmount}");
         }
 
-        Health -= damageAmmount;
-
         if (Health > 0)
         {
-            gameOverLogic.GameOver();
-            Destroy(gameObject);
+            Health -= damageAmmount;
             return;
         }
 
@@ -114,5 +111,11 @@ public class PlayerStats : CreatureStats
         Armor += _ammount;
 
         return true;
+    }
+
+    protected override void Death()
+    {
+        gameOverLogic.GameOver();
+        Destroy(gameObject);
     }
 }
