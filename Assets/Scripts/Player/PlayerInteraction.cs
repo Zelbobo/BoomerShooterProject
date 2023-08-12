@@ -66,6 +66,6 @@ public class PlayerInteraction : InteractionController
             return;
         }
 
-        currentInteractableObject.Interact();
+        currentInteractableObject.Interact(this);
     }
 }

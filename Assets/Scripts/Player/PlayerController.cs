@@ -56,7 +56,14 @@ public class PlayerController : MoveController
 
     private void Move()
     {
-        move = transform.forward * moveVertical + transform.right * moveHorizontal;
+        if (!isClimbing)
+        {
+            move = transform.forward * moveVertical + transform.right * moveHorizontal;
+        }
+        else
+        {
+            move = Vector3.up * moveVertical;
+        }
 
         _rigidbody.MovePosition(transform.position + move * currentSpeed * Time.deltaTime);
     }
@@ -85,5 +92,16 @@ public class PlayerController : MoveController
     private bool IsGrounded()
     {
         return Physics.CheckSphere(groundCheck.position, radius, groundLayer);
+    }
+
+    public override void SetClimbing(bool _value)
+    {
+        base.SetClimbing(_value);
+        _rigidbody.isKinematic = _value;
+    }
+
+    private void CheckClimbing()
+    {
+
     }
 }

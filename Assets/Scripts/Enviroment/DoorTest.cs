@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DoorTest : Interactable
 {
-    public override void Interact()
+    public override void Interact(InteractionController interactor)
     {
-        base.Interact();
+        base.Interact(interactor);
         gameObject.SetActive(false);
     }
 }
