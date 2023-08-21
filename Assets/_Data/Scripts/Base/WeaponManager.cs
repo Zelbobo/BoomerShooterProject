@@ -32,12 +32,15 @@ public class WeaponManager : MonoBehaviour
     {
         RangeWeapon currentWeapon = null;
 
-        foreach (RangeWeapon weapon in weaponsList)
+        foreach (Weapon weapon in weaponsList)
         {
-            if (weapon.GetWeaponObject == ammoCollectable.GetWeaponObject)
+            if (weapon is RangeWeapon)
             {
-                currentWeapon = weapon;
-                break;
+                if (weapon.GetWeaponObject == ammoCollectable.GetWeaponObject)
+                {
+                    currentWeapon = (RangeWeapon)weapon;
+                    break;
+                }
             }
         }
 
